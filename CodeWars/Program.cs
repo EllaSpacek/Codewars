@@ -7,9 +7,10 @@
 
 // Create a function that takes an integer as an argument and returns "Even" for even numbers or "Odd" for odd numbers.
 
+using System;
 using System.Text;
 
-static string EvenOrOdd1(int number)
+string EvenOrOdd1(int number)
 {
     if (number % 2 == 0)
     {
@@ -21,12 +22,12 @@ static string EvenOrOdd1(int number)
     }
 }
 
-static string EvenOrOdd2(int number)
+string EvenOrOdd2(int number)
 {
     return number % 2 == 0 ? "Even" : "Odd";
 }
 
-static string EvenOrOdd3(int number) => number % 2 == 0 ? "Even" : "Odd";
+string EvenOrOdd3(int number) => number % 2 == 0 ? "Even" : "Odd";
 
 //Console.WriteLine(EvenOrOdd1(3));
 //Console.WriteLine(EvenOrOdd1(2));
@@ -50,7 +51,7 @@ static string EvenOrOdd3(int number) => number % 2 == 0 ? "Even" : "Odd";
    "The_Stealth-Warrior" gets converted to "TheStealthWarrior"
 */
 
-static string ToCamelCase1(string str)
+string ToCamelCase1(string str)
 {
     var result = new StringBuilder();
     bool capitalize = false;
@@ -75,7 +76,7 @@ static string ToCamelCase1(string str)
     return result.ToString();
 }
 
-static string ToCamelCase2(string str)
+string ToCamelCase2(string str)
 {
     var result = new StringBuilder();
 
@@ -111,7 +112,7 @@ static string ToCamelCase2(string str)
 ["Alex", "Jacob", "Mark", "Max"]  -->  "Alex, Jacob and 2 others like this"
 */
 
-static string Likes1(string[] name)
+string Likes1(string[] name)
 {
     switch (name.Length)
     {
@@ -128,7 +129,7 @@ static string Likes1(string[] name)
     }
 }
 
-static string Likes2(string[] name)
+string Likes2(string[] name)
     => name.Length switch
     {
         0 => "no one likes this",
@@ -158,7 +159,7 @@ static string Likes2(string[] name)
     The input string will only consist of lower case letters and/or spaces.
 */
 
- static int GetVowelCount1(string str){
+ int GetVowelCount1(string str){
     int vowelCount = 0;
     var vowels = new char[] { 'a', 'e', 'i', 'o', 'u' };
     
@@ -173,7 +174,7 @@ static string Likes2(string[] name)
     return vowelCount;
 }
 
-static int GetVowelCount2(string str)
+int GetVowelCount2(string str)
 {
     int vowelCount = 0;
     var vowels = new char[] { 'a', 'e', 'i', 'o', 'u' };
@@ -189,7 +190,7 @@ static int GetVowelCount2(string str)
     return vowelCount;
 }
 
-static int GetVowelCount3(string str)
+int GetVowelCount3(string str)
 {
     return str.Count(i => "aeiou".Contains(i));
 }
@@ -211,7 +212,7 @@ static int GetVowelCount3(string str)
     Note: keep the original order of the names in the output.
 */
 
-static IEnumerable<string> FriendOrFoe(string[] names)
+IEnumerable<string> FriendOrFoe(string[] names)
 {
     return names.Where(x => x.Length == 4);
 }
@@ -276,7 +277,7 @@ int GetSum2(int a, int b)
     ""             =>  ""
 */
 
-static string BreakCamelCase1(string str)
+string BreakCamelCase1(string str)
 {
     var result = new StringBuilder();
 
@@ -295,7 +296,7 @@ static string BreakCamelCase1(string str)
     return result.ToString();
 }
 
-static string BreakCamelCase2(string str)
+string BreakCamelCase2(string str)
 {
     return string.Concat(str.Select(c => Char.IsUpper(c) ? " " + c : c.ToString()));
 }
@@ -319,7 +320,7 @@ static string BreakCamelCase2(string str)
     Your code must return true or false (not 'true' and 'false') depending upon whether the given number is a Narcissistic number in base 10.
 */
 
-static bool Narcissistic1(int value)
+bool Narcissistic1(int value)
 {
     int power = value.ToString().Length;
     int result = 0;
@@ -345,10 +346,6 @@ static bool Narcissistic2(int value)
 //Console.WriteLine(Narcissistic2(153));
 //Console.WriteLine(Narcissistic2(371));
 
-/////////////////////////////////////         5kyu         ///////////////////////////////////////////
-
-/////////////////////////////////////       30.03.23      ///////////////////////////////////////////
-
 /*
     Move the first letter of each word to the end of it, then add "ay" to the end of the word. Leave punctuation marks untouched.
 
@@ -357,7 +354,7 @@ static bool Narcissistic2(int value)
     Kata.PigIt("Hello world !");     // elloHay orldway !
 */
 
-static string PigIt1(string str)
+string PigIt1(string str)
 {
     var wordsOriginal = str.Split(' ');
     var wordsPigged = new List<string>();
@@ -381,7 +378,7 @@ static string PigIt1(string str)
     return string.Join(' ', wordsPigged);
 }
 
-static string PigIt2(string str)
+string PigIt2(string str)
 {
     return string.Join(" ", str.Split(' ').Select(w => w.Any(char.IsPunctuation) ? w : w.Substring(1) + w[0] + "ay"));
 }
@@ -390,3 +387,248 @@ static string PigIt2(string str)
 //Console.WriteLine(PigIt1("This is my string !"));
 //Console.WriteLine(PigIt2("Pig latin is cool"));
 //Console.WriteLine(PigIt2("This is my string !"));
+
+/////////////////////////////////////       31.03.23      ///////////////////////////////////////////
+
+/*
+    In this simple Kata your task is to create a function that turns a string into a Mexican Wave.You will be passed a string and you must return that string in an array where an uppercase letter is a person standing up. 
+    Rules
+     1.  The input string will always be lower case but maybe empty.
+
+     2.  If the character in the string is whitespace then pass over it as if it was an empty seat
+    Example
+wave("hello") => {"Hello", "hEllo", "heLlo", "helLo", "hellO"}
+*/
+
+List<string> wave1(string str)
+{
+    var result = new List<string>();
+
+    for (int i = 0; i < str.Length; i++)
+    {
+        if (str[i] != ' ')
+        {
+            result.Add(str.Substring(0, i) + char.ToUpper(str[i]) + str.Substring(i + 1));
+        }  
+    }
+
+    return result;
+}
+
+List<string> wave2(string str)
+{
+    List<string> mexicanWave = new List<string>();
+    for (int i = 0; i < str.Length; i++)
+    {
+        char[] a = str.ToCharArray();
+
+        if (a[i] !=  ' ')
+        {
+            a[i] = char.ToUpper(a[i]);
+            mexicanWave.Add(new string(a));
+        }
+    }
+    return mexicanWave;
+}
+
+//foreach (var word in wave1("codewa rs"))
+//{
+//    Console.WriteLine(word);
+//}
+
+//foreach (var word in wave2("codewa rs"))
+//{
+//    Console.WriteLine(word);
+//}
+
+/*
+    Write a function that takes a string of braces, and determines if the order of the braces is valid. It should return true if the string is valid, and false if it's invalid.
+
+    This Kata is similar to the Valid Parentheses Kata, but introduces new characters: brackets [], and curly braces {}. Thanks to @arnedag for the idea!
+
+    All input strings will be nonempty, and will only consist of parentheses, brackets and curly braces: ()[]{}.
+
+    What is considered Valid?
+    A string of braces is considered valid if all braces are matched with the correct brace.
+
+    Examples
+    "(){}[]"   =>  True
+    "([{}])"   =>  True
+    "(}"       =>  False
+    "[(])"     =>  False
+    "[({})](]" =>  False
+*/
+
+bool validBraces1(String braces)
+{
+    // Check if there is the same amount of closing braces as opening braces
+    if (braces.Count(x => x == '(') == braces.Count(x => x == ')') 
+    &&
+    braces.Count(x => x == '[') == braces.Count(x => x == ']')
+    &&
+    braces.Count(x => x == '{') == braces.Count(x => x == '}'))
+    {
+        for (int i = 1; i < braces.Length; i++)
+        {
+            // Check if the directly following braces is possible
+            if ((braces[i - 1] == '(' && (braces[i] == '}' || braces[i] == ']'))
+            ||
+            (braces[i - 1] == '[' && (braces[i] == '}' || braces[i] == ')'))
+            ||
+            (braces[i - 1] == '{' && (braces[i] == ']' || braces[i] == ')')))
+            {
+                return false;
+            }
+            
+            // Check if there are not already too many closing braces so far
+            if (braces[i] == ')')
+            {
+                if (braces.Substring(0, i).Count(x => x == '(') - 1 < braces.Substring(0, i).Count(x => x == ')'))
+                { return false; }
+            }
+            else if (braces[i] == ']')
+            {
+                if (braces.Substring(0, i).Count(x => x == '[') - 1 < braces.Substring(0, i).Count(x => x == ']'))
+                { return false; }
+            }
+            else if (braces[i] == '}')
+            {
+                if (braces.Substring(0, i).Count(x => x == '{') - 1 < braces.Substring(0, i).Count(x => x == '}'))
+                { return false; }
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
+bool validBraces2(String str)
+{
+    string prev = "";
+    while (str.Length != prev.Length)
+    {
+        prev = str;
+        str = str
+            .Replace("()", String.Empty)
+            .Replace("[]", String.Empty)
+            .Replace("{}", String.Empty);
+    }
+    return (str.Length == 0);
+}
+
+bool validBraces3(string braces)
+{
+    var st = new Stack<char>();
+    foreach (var c in braces)
+        switch (c)
+        {
+            case '(':
+            case '[':
+            case '{':
+                st.Push(c);
+                continue;
+            case ')':
+                if (st.Count == 0 || st.Pop() != '(') return false;
+                continue;
+            case ']':
+                if (st.Count == 0 || st.Pop() != '[') return false;
+                continue;
+            case '}':
+                if (st.Count == 0 || st.Pop() != '{') return false;
+                continue;
+        }
+    return st.Count == 0;
+}
+
+//Console.WriteLine(validBraces1("()"));
+//Console.WriteLine(validBraces1("[(])"));
+//Console.WriteLine(validBraces1("({})[({})]"));
+//Console.WriteLine(validBraces1("("));
+//Console.WriteLine(validBraces1(")"));
+//Console.WriteLine(validBraces1("(({{[[]]}}))"));
+//Console.WriteLine(validBraces2("()"));
+//Console.WriteLine(validBraces2("[(])"));
+//Console.WriteLine(validBraces2("({})[({})]"));
+//Console.WriteLine(validBraces2("("));
+//Console.WriteLine(validBraces2(")"));
+//Console.WriteLine(validBraces2("(({{[[]]}}))"));
+//Console.WriteLine(validBraces3("()"));
+//Console.WriteLine(validBraces3("[(])"));
+//Console.WriteLine(validBraces3("({})[({})]"));
+//Console.WriteLine(validBraces3("("));
+//Console.WriteLine(validBraces3(")"));
+//Console.WriteLine(validBraces3("(({{[[]]}}))"));
+
+/////////////////////////////////////       01.04.23      ///////////////////////////////////////////
+
+/*
+    My friend John and I are members of the "Fat to Fit Club (FFC)". John is worried because each month a list with the weights of members is published and each month he is the last on the list which means he is the heaviest.
+
+    I am the one who establishes the list so I told him: "Don't worry any more, I will modify the order of the list". It was decided to attribute a "weight" to numbers. The weight of a number will be from now on the sum of its digits.
+
+    For example 99 will have "weight" 18, 100 will have "weight" 1 so in the list 100 will come before 99.
+
+    Given a string with the weights of FFC members in normal order can you give this string ordered by "weights" of these numbers?
+
+    Example:
+    "56 65 74 100 99 68 86 180 90" ordered by numbers weights becomes: 
+
+    "100 180 90 56 65 74 68 86 99"
+    When two numbers have the same "weight", let us class them as if they were strings (alphabetical ordering) and not numbers:
+
+    180 is before 90 since, having the same "weight" (9), it comes before as a string.
+
+    All numbers in the list are positive numbers and the list can be empty.
+
+    Notes
+    it may happen that the input string have leading, trailing whitespaces and more than a unique whitespace between two consecutive numbers
+*/
+
+string orderWeight1(string strng)
+{
+    string[] weightsWhitespaceRemoved = strng.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
+    var listOfWeights = new List<Weight>();
+
+    foreach (var weight in weightsWhitespaceRemoved)
+    {
+        int weightDigit = 0;
+
+        weight.ToList().ForEach(character => weightDigit += int.Parse(character.ToString()));
+
+        listOfWeights.Add(new Weight()
+        {
+            weightStr = weight,
+
+            weightDigitSum = weightDigit
+        });
+    }
+
+    return String.Join(' ', listOfWeights.OrderBy(x => x.weightDigitSum).ThenBy(x => x.weightStr).Select(x => x.weightStr));
+}
+
+string orderWeight2(string strng)
+{
+    return string.Join(" ", strng.Split(' ')
+        .OrderBy(n => n.ToCharArray()
+        .Select(c => (int)char.GetNumericValue(c)).Sum())
+        .ThenBy(n => n));
+}
+
+string orderWeight3(string strng)
+    => string.Join(" ", strng.Split().OrderBy(s => s.Sum(char.GetNumericValue)).ThenBy(x => x));
+
+Console.WriteLine(orderWeight1("103 123 4444 99 2000"));
+Console.WriteLine(orderWeight1("2000 10003 1234000 44444444 9999 11 11 22 123"));
+Console.WriteLine(orderWeight2("103 123 4444 99 2000"));
+Console.WriteLine(orderWeight2("2000 10003 1234000 44444444 9999 11 11 22 123"));
+Console.WriteLine(orderWeight3("103 123 4444 99 2000"));
+Console.WriteLine(orderWeight3("2000 10003 1234000 44444444 9999 11 11 22 123"));
+
+
+
+class Weight
+{
+    public string weightStr { get; set; }
+    public int weightDigitSum { get; set; }
+}
+
