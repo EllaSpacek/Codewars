@@ -8,7 +8,9 @@
 // Create a function that takes an integer as an argument and returns "Even" for even numbers or "Odd" for odd numbers.
 
 using System;
+using System.Collections;
 using System.Text;
+using System.Xml.Linq;
 
 string EvenOrOdd1(int number)
 {
@@ -646,13 +648,57 @@ string orderWeight2(string strng)
     helper.PageIndex(-10); //should == -1
 */
 
-List<char> collection = new() { 'a', 'b', 'c', 'd', 'e', 'f' };
-PagnationHelper<char> helper = new(collection, 4);
-Console.WriteLine(helper.PageCount);
-Console.WriteLine(helper.ItemCount);
-Console.WriteLine(helper.PageItemCount(0));
-Console.WriteLine(helper.PageItemCount(1));
-Console.WriteLine(helper.PageItemCount(2));
+//List<char> collection = new() { 'a', 'b', 'c', 'd', 'e', 'f' };
+//PagnationHelper<char> helper = new(collection, 4);
+//Console.WriteLine(helper.PageCount);
+//Console.WriteLine(helper.ItemCount);
+//Console.WriteLine(helper.PageItemCount(0));
+//Console.WriteLine(helper.PageItemCount(1));
+//Console.WriteLine(helper.PageItemCount(2));
+
+/////////////////////////////////////       05.04.23      ///////////////////////////////////////////
+
+/*
+    You are given a node that is the beginning of a linked list. This list contains a dangling piece and a loop. Your objective is to determine the length of the loop.
+
+    For example in the following picture the size of the dangling piece is 3 and the loop size is 12:
+
+
+    # Use the `next' method to get the following node.
+    node.next
+    Notes:
+
+    do NOT mutate the nodes!
+    in some cases there may be only a loop, with no dangling piece
+*/
+/*
+int getLoopSize(LoopDetector.Node startNode)
+{
+    // Too Slow!
+    
+    //List<LoopDetector.Node> allNodes = new();
+    
+    //while (true)
+    //{
+    //  if (allNodes.Contains(startNode)) return allNodes.Count - allNodes.IndexOf(startNode);
+      
+    //  allNodes.Add(startNode);
+    //  startNode = startNode.next;
+    //}
+    
+    int index = 0;
+    Hashtable nodeAndIndex = new();
+
+    while (true)
+    {
+        if (nodeAndIndex.Contains(startNode)) return nodeAndIndex.Count - (int)nodeAndIndex[startNode];
+
+        nodeAndIndex.Add(startNode, index);
+        index++;
+        startNode = startNode.next;
+    }
+}
+*/
 
 public class PagnationHelper<T>
 {
