@@ -700,6 +700,80 @@ int getLoopSize(LoopDetector.Node startNode)
 }
 */
 
+/////////////////////////////////////       23.05.23      ///////////////////////////////////////////
+/*
+    Write Number in Expanded Form
+    You will be given a number and you will need to return it as a string in Expanded Form. For example:
+
+    Kata.ExpandedForm(12); # Should return "10 + 2"
+    Kata.ExpandedForm(42); # Should return "40 + 2"
+    Kata.ExpandedForm(70304); # Should return "70000 + 300 + 4"
+    NOTE: All numbers will be whole numbers greater than 0.
+*/
+
+string ExpandedForm(long num)
+{
+    var result = "";
+    var numAsString = num.ToString();
+    bool lastDigitIsZero = numAsString[numAsString.Length - 1] == '0';
+
+    if (numAsString.Length == 1) return numAsString;
+
+    for (int i = 0; i < numAsString.Length - 1; i++)
+    {
+        if (numAsString[i] == '0') continue;
+
+        if (!String.IsNullOrEmpty(result)) result += " + ";
+
+        result += numAsString[i];
+
+        for (int j = 1; j <= numAsString.Length - 1 - i; j++)
+        {
+            result += "0";
+        }
+
+    }    
+    
+    if (!lastDigitIsZero) result += " + " + numAsString[numAsString.Length - 1];
+
+    return result;
+}
+
+string ExpandedForm2(long num)
+{
+    var result = new List<string>();
+    var numAsString = num.ToString();
+    string number;
+
+    for (int i = 0; i < numAsString.Length; i++)
+    {
+        if (numAsString[i] == '0') continue;
+
+        number = numAsString[i].ToString();
+
+        for (int j = 1; j <= numAsString.Length - 1 - i; j++)
+        {
+            number += "0";
+        }
+
+        result.Add(number);
+    }
+
+    return String.Join(" + ", result);
+}
+
+//Console.WriteLine(ExpandedForm(12));
+//Console.WriteLine(ExpandedForm(42));
+//Console.WriteLine(ExpandedForm(70304));
+//Console.WriteLine(ExpandedForm(7030));
+//Console.WriteLine(ExpandedForm(7000));
+Console.WriteLine(ExpandedForm2(1));
+Console.WriteLine(ExpandedForm2(12));
+Console.WriteLine(ExpandedForm2(42));
+Console.WriteLine(ExpandedForm2(70304));
+Console.WriteLine(ExpandedForm2(7030));
+Console.WriteLine(ExpandedForm2(7000));
+
 public class PagnationHelper<T>
 {
     private IList<T> collection;
