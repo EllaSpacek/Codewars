@@ -12,6 +12,7 @@ using System.Collections;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
 string EvenOrOdd1(int number)
@@ -802,12 +803,221 @@ bool Scramble(string str1, string str2)
     return false;
 }
 
-Console.WriteLine(Scramble("rkqodlw", "world"));
-Console.WriteLine(Scramble("cedewaraaossoqqyt", "codewars"));
-Console.WriteLine(Scramble("katas", "steak"));
-Console.WriteLine(Scramble("scriptjavx", "javascript"));
-Console.WriteLine(Scramble("scriptingjava", "javascript"));
-Console.WriteLine(Scramble("scriptsjava", "javascripts"));
+bool Scramble2(string str1, string str2)
+{
+    return str2.All(x => str1.Count(y => y == x) >= str2.Count(y => y == x));
+}
+
+//Console.WriteLine(Scramble("rkqodlw", "world"));
+//Console.WriteLine(Scramble("cedewaraaossoqqyt", "codewars"));
+//Console.WriteLine(Scramble("katas", "steak"));
+//Console.WriteLine(Scramble("scriptjavx", "javascript"));
+//Console.WriteLine(Scramble("scriptingjava", "javascript"));
+//Console.WriteLine(Scramble("scriptsjava", "javascripts"));
+//Console.WriteLine(Scramble2("rkqodlw", "world"));
+//Console.WriteLine(Scramble2("cedewaraaossoqqyt", "codewars"));
+//Console.WriteLine(Scramble2("katas", "steak"));
+//Console.WriteLine(Scramble2("scriptjavx", "javascript"));
+//Console.WriteLine(Scramble2("scriptingjava", "javascript"));
+//Console.WriteLine(Scramble2("scriptsjava", "javascripts"));
+
+/*
+    In this Kata you will encode strings using a Soundex variation called "American Soundex" using the following (case insensitive) steps:
+
+    Save the first letter. Remove all occurrences of h and w except first letter.
+    Replace all consonants (include the first letter) with digits as follows:
+    b, f, p, v = 1
+    c, g, j, k, q, s, x, z = 2
+    d, t = 3
+    l = 4
+    m, n = 5
+    r = 6
+    Replace all adjacent same digits with one digit.
+    Remove all occurrences of a, e, i, o, u, y except first letter.
+    If first symbol is a digit replace it with letter saved on step 1.
+    Append 3 zeros if result contains less than 3 digits. Remove all except first letter and 3 digits after it
+    Input
+    A space separated string of one or more names. E.g.
+    Sarah Connor
+    Output
+    Space separated string of equivalent Soundex codes (the first character of each code must be uppercase). E.g.
+    S600 C560
+*/
+
+//string Soundex(string names) 
+//{
+//    var namesAsList = names.Split(' ');
+//    var encodedNames = new List<string>();
+//    var firstLetter = "";
+
+//    foreach (var originalName in namesAsList)
+//    {
+//        firstLetter = originalName[0].ToString();
+
+//        // remove h, w
+//        var forbiddenLetters = new Regex("[hw]");
+//        var name = string.Join("", originalName.Substring(1).Where(x => !forbiddenLetters.Match(x.ToString()).Success));
+
+//        if (name.Length > 0)
+//        {
+//            // convert to digits
+//            var patternFor1 = "[bfpv]";
+//            var patternFor2 = "[cgjkqsxz]";
+//            var patternFor3 = "[dt]";
+//            var patternFor5 = "[mn]";
+//            name = Regex.Replace(name, patternFor1, "1");
+//            name = Regex.Replace(name, patternFor2, "2");
+//            name = Regex.Replace(name, patternFor3, "3");
+//            name = Regex.Replace(name, patternFor5, "5");
+//            name = name.Replace("l", "4");
+//            name = name.Replace("r", "6");
+
+//            // remove doubles
+//            if (name.Length > 1)
+//            {
+//                var name2 = name[1].ToString();
+
+//                for (int i = 1; i < name.Length; i++)
+//                {
+//                    if (name[i] == name2[name2.Length - 1]) continue;
+
+//                    name2 += name[i];
+//                }
+
+//                name = name2;
+//            }
+
+//            // remove a, e, i, o, u, y
+//            var forbiddenLetters2 = new Regex("[aeiouy]");
+//            var name = String.Join("", originalName.Substring(1).Where(x => !forbiddenLetters2.Match(x.ToString()).Success));
+
+//            // Remove first digit
+//            if (char.IsDigit(name[0]) && name.Length > 1)
+//            {
+//                name = firstLetter + name.Substring(1);
+//            }
+//        }
+//        else
+//        {
+//            name = firstLetter;
+//        }
+        
+//        // Check length
+//        if (name.Length < 4)
+//        {
+//            for (int i = name.Length; i < 4; i++)
+//            {
+//                name += "0";
+//            }
+//        }
+//        else if (name.Length > 4) 
+//        {
+//            name = name.Substring(0, 4);
+//        }
+
+//        encodedNames.Add(name.ToUpper());
+//    }
+
+//    return string.Join(" ", encodedNames);
+//}
+
+string Soundex(string names)
+{
+    names = names.ToUpper();
+    var namesEncoded = new List<string>();
+
+    // Input couuld be more than 1 name.
+    foreach (var name in names.Split(" "))
+    {
+        // 1. Save the first letter.
+        var firstLetter = name[0];
+
+        // 2. Remove h and w (excl 1st letter)
+        var forbiddenLetters = new Regex("[HW]");
+        var nameEncoded = name[0] + string.Join("", name[1..].Where(x => !forbiddenLetters.Match(x.ToString()).Success));
+
+        // 3. Replace consonants (incl 1st letter)
+        var patternFor1 = "[BFPV]";
+        var patternFor2 = "[CGJKQSXZ]";
+        var patternFor3 = "[DT]";
+        var patternFor5 = "[MN]";
+        nameEncoded = Regex.Replace(nameEncoded, patternFor1, "1");
+        nameEncoded = Regex.Replace(nameEncoded, patternFor2, "2");
+        nameEncoded = Regex.Replace(nameEncoded, patternFor3, "3");
+        nameEncoded = Regex.Replace(nameEncoded, patternFor5, "5");
+        nameEncoded = nameEncoded.Replace("L", "4");
+        nameEncoded = nameEncoded.Replace("R", "6");
+
+        // 4. Replace all adjacent same digits (incl 1st letter)
+        var nameEncodedTemp = nameEncoded[0].ToString();
+
+        for (int i = 1; i < nameEncoded.Length; i++)
+        {
+            if (nameEncoded[i] == nameEncodedTemp[^1]) continue;
+
+            nameEncodedTemp += nameEncoded[i];
+        }
+
+        nameEncoded = nameEncodedTemp;
+
+        // 5. Remove vowels and y (excl 1st letter)
+        var forbiddenLetters2 = new Regex("[AEIOUY]");
+        nameEncoded = nameEncoded[0] + String.Join("", nameEncoded[1..].Where(x => !forbiddenLetters2.Match(x.ToString()).Success));
+
+        // 6. If 1st symbol is a digit -> replace with first letter
+        if (char.IsDigit(nameEncoded[0])) nameEncoded = firstLetter + nameEncoded[1..];
+
+        // 7. Check length
+        int digits = nameEncoded.Count(x => char.IsDigit(x));
+        if (digits < 3)
+        {
+            for (int i = digits; i <= 3; i++)
+            {
+                nameEncoded += "0";
+            }
+        }
+        
+
+        if (!char.IsDigit(nameEncoded[0]))
+        {
+            nameEncoded = nameEncoded[..4];
+        }
+        else
+        {
+            nameEncoded = nameEncoded[..3];
+        }
+
+        namesEncoded.Add(nameEncoded);
+        
+    }
+
+    return string.Join(" ", namesEncoded);
+}
+
+string Soundex2(string names)
+{
+    return string.Join(" ", names.ToUpper().Split(' ').Select(str =>
+    {
+        string hw = Regex.Replace(str, "(?!^)[HW]", "");
+        string bfp = Regex.Replace(hw, "[BFPV]+", "1");
+        string cgj = Regex.Replace(bfp, "[CGJKQSXZ]+", "2");
+        string dt = Regex.Replace(cgj, "[DT]+", "3");
+        string l = Regex.Replace(dt, "L+", "4");
+        string mn = Regex.Replace(l, "[MN]+", "5");
+        string r = Regex.Replace(mn, "R+", "6");
+        string aei = Regex.Replace(r, "(?!^)[AEIOUY]", "");
+        string dig = Regex.Replace(aei, "^\\d", str.Substring(0, 1));
+        string result = Regex.Replace(dig, "$", "00000");
+        return result.Substring(0, 4);
+    }));
+}
+
+//Console.WriteLine(Soundex("Sarah Connor"));
+//Console.WriteLine(Soundex("zxqurlwbx"));
+//Console.WriteLine(Soundex("Joe"));
+//Console.WriteLine(Soundex2("Sarah Connor"));
+//Console.WriteLine(Soundex2("zxqurlwbx"));
+//Console.WriteLine(Soundex2("Joe"));
 
 public class PagnationHelper<T>
 {
