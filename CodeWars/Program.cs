@@ -9,6 +9,8 @@
 
 using System;
 using System.Collections;
+using System.Numerics;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Xml.Linq;
 
@@ -767,12 +769,45 @@ string ExpandedForm2(long num)
 //Console.WriteLine(ExpandedForm(70304));
 //Console.WriteLine(ExpandedForm(7030));
 //Console.WriteLine(ExpandedForm(7000));
-Console.WriteLine(ExpandedForm2(1));
-Console.WriteLine(ExpandedForm2(12));
-Console.WriteLine(ExpandedForm2(42));
-Console.WriteLine(ExpandedForm2(70304));
-Console.WriteLine(ExpandedForm2(7030));
-Console.WriteLine(ExpandedForm2(7000));
+//Console.WriteLine(ExpandedForm2(1));
+//Console.WriteLine(ExpandedForm2(12));
+//Console.WriteLine(ExpandedForm2(42));
+//Console.WriteLine(ExpandedForm2(70304));
+//Console.WriteLine(ExpandedForm2(7030));
+//Console.WriteLine(ExpandedForm2(7000));
+
+/*
+    Complete the function scramble(str1, str2) that returns true if a portion of str1 characters can be rearranged to match str2, otherwise returns false.
+    Notes:
+    Only lower case letters will be used (a-z). No punctuation or digits will be included.
+    Performance needs to be considered.
+    Examples
+    scramble('rkqodlw', 'world') ==> True
+    scramble('cedewaraaossoqqyt', 'codewars') ==> True
+    scramble('katas', 'steak') ==> False
+*/
+
+bool Scramble(string str1, string str2)
+{
+    if (str1.Length >= str2.Length)
+    {
+        foreach (char letter in str2)
+        {
+            if (!(str2.ToList().Count(x => x == letter) <= str1.ToList().Count(x => x == letter))) return false;
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+Console.WriteLine(Scramble("rkqodlw", "world"));
+Console.WriteLine(Scramble("cedewaraaossoqqyt", "codewars"));
+Console.WriteLine(Scramble("katas", "steak"));
+Console.WriteLine(Scramble("scriptjavx", "javascript"));
+Console.WriteLine(Scramble("scriptingjava", "javascript"));
+Console.WriteLine(Scramble("scriptsjava", "javascripts"));
 
 public class PagnationHelper<T>
 {
