@@ -674,34 +674,34 @@ string orderWeight2(string strng)
     do NOT mutate the nodes!
     in some cases there may be only a loop, with no dangling piece
 */
-/*
-int getLoopSize(LoopDetector.Node startNode)
-{
-    // Too Slow!
+
+//int getLoopSize(LoopDetector.Node startNode)
+//{
+//    // Too Slow!
     
-    //List<LoopDetector.Node> allNodes = new();
+//    //List<LoopDetector.Node> allNodes = new();
     
-    //while (true)
-    //{
-    //  if (allNodes.Contains(startNode)) return allNodes.Count - allNodes.IndexOf(startNode);
+//    //while (true)
+//    //{
+//    //  if (allNodes.Contains(startNode)) return allNodes.Count - allNodes.IndexOf(startNode);
       
-    //  allNodes.Add(startNode);
-    //  startNode = startNode.next;
-    //}
+//    //  allNodes.Add(startNode);
+//    //  startNode = startNode.next;
+//    //}
     
-    int index = 0;
-    Hashtable nodeAndIndex = new();
+//    int index = 0;
+//    Hashtable nodeAndIndex = new();
 
-    while (true)
-    {
-        if (nodeAndIndex.Contains(startNode)) return nodeAndIndex.Count - (int)nodeAndIndex[startNode];
+//    while (true)
+//    {
+//        if (nodeAndIndex.Contains(startNode)) return nodeAndIndex.Count - (int)nodeAndIndex[startNode];
 
-        nodeAndIndex.Add(startNode, index);
-        index++;
-        startNode = startNode.next;
-    }
-}
-*/
+//        nodeAndIndex.Add(startNode, index);
+//        index++;
+//        startNode = startNode.next;
+//    }
+//}
+
 
 /////////////////////////////////////       23.05.23      ///////////////////////////////////////////
 /*
@@ -844,83 +844,6 @@ bool Scramble2(string str1, string str2)
     S600 C560
 */
 
-//string Soundex(string names) 
-//{
-//    var namesAsList = names.Split(' ');
-//    var encodedNames = new List<string>();
-//    var firstLetter = "";
-
-//    foreach (var originalName in namesAsList)
-//    {
-//        firstLetter = originalName[0].ToString();
-
-//        // remove h, w
-//        var forbiddenLetters = new Regex("[hw]");
-//        var name = string.Join("", originalName.Substring(1).Where(x => !forbiddenLetters.Match(x.ToString()).Success));
-
-//        if (name.Length > 0)
-//        {
-//            // convert to digits
-//            var patternFor1 = "[bfpv]";
-//            var patternFor2 = "[cgjkqsxz]";
-//            var patternFor3 = "[dt]";
-//            var patternFor5 = "[mn]";
-//            name = Regex.Replace(name, patternFor1, "1");
-//            name = Regex.Replace(name, patternFor2, "2");
-//            name = Regex.Replace(name, patternFor3, "3");
-//            name = Regex.Replace(name, patternFor5, "5");
-//            name = name.Replace("l", "4");
-//            name = name.Replace("r", "6");
-
-//            // remove doubles
-//            if (name.Length > 1)
-//            {
-//                var name2 = name[1].ToString();
-
-//                for (int i = 1; i < name.Length; i++)
-//                {
-//                    if (name[i] == name2[name2.Length - 1]) continue;
-
-//                    name2 += name[i];
-//                }
-
-//                name = name2;
-//            }
-
-//            // remove a, e, i, o, u, y
-//            var forbiddenLetters2 = new Regex("[aeiouy]");
-//            var name = String.Join("", originalName.Substring(1).Where(x => !forbiddenLetters2.Match(x.ToString()).Success));
-
-//            // Remove first digit
-//            if (char.IsDigit(name[0]) && name.Length > 1)
-//            {
-//                name = firstLetter + name.Substring(1);
-//            }
-//        }
-//        else
-//        {
-//            name = firstLetter;
-//        }
-        
-//        // Check length
-//        if (name.Length < 4)
-//        {
-//            for (int i = name.Length; i < 4; i++)
-//            {
-//                name += "0";
-//            }
-//        }
-//        else if (name.Length > 4) 
-//        {
-//            name = name.Substring(0, 4);
-//        }
-
-//        encodedNames.Add(name.ToUpper());
-//    }
-
-//    return string.Join(" ", encodedNames);
-//}
-
 string Soundex(string names)
 {
     names = names.ToUpper();
@@ -1018,6 +941,93 @@ string Soundex2(string names)
 //Console.WriteLine(Soundex2("Sarah Connor"));
 //Console.WriteLine(Soundex2("zxqurlwbx"));
 //Console.WriteLine(Soundex2("Joe"));
+
+/////////////////////////////////////       24.05.23      ///////////////////////////////////////////
+
+/*
+    If we were to set up a Tic-Tac-Toe game, we would want to know whether the board's current state is solved, wouldn't we? Our goal is to create a function that will check that for us!
+
+    Assume that the board comes in the form of a 3x3 array, where the value is 0 if a spot is empty, 1 if it is an "X", or 2 if it is an "O", like so:
+
+    [[0, 0, 1],
+     [0, 1, 2],
+     [2, 1, 0]]
+    We want our function to return:
+
+    -1 if the board is not yet finished AND no one has won yet (there are empty spots),
+    1 if "X" won,
+    2 if "O" won,
+    0 if it's a cat's game (i.e. a draw).
+    You may assume that the board passed in is valid in the context of a game of Tic-Tac-Toe.
+*/
+
+int IsSolved(int[,] board)
+{
+    if (Won(board, 1)) return 1;
+    
+    if (Won(board, 2)) return 2;
+
+    if (NoZero(board)) return 0;
+
+    return -1;
+}
+
+bool Won(int[,] board, int num)
+{
+    if (board[0, 0] == num && board[1, 0] == num && board[2, 0] == num
+        ||
+        board[0, 1] == num && board[1, 1] == num && board[2, 1] == num
+        ||
+        board[0, 2] == num && board[1, 2] == num && board[2, 2] == num
+        ||
+        board[0, 0] == num && board[0, 1] == num && board[0, 2] == num
+        ||
+        board[1, 0] == num && board[1, 1] == num && board[1, 2] == num
+        ||
+        board[2, 0] == num && board[2, 1] == num && board[2, 2] == num
+        ||
+        board[0, 0] == num && board[1, 1] == num && board[2, 2] == num
+        ||
+        board[0, 2] == num && board[1, 1] == num && board[2, 0] == num
+        ) return true;
+
+    return false;
+}
+
+bool NoZero(int[,] board)
+{
+    for (int row = 0; row < board.GetLength(0); row++)
+    {
+        for (int col = 0; col < board.GetLength(1); col++)
+        {
+            if (board[row, col] != 0) continue;
+            
+            return false;
+        }
+    }
+
+    return true;
+}
+
+int IsSolved2(int[,] board)
+{
+    if (board[0, 0] != 0 && board[0, 0] == board[0, 1] && board[0, 1] == board[0, 2]) return board[0, 0];
+    if (board[1, 0] != 0 && board[1, 0] == board[1, 1] && board[1, 1] == board[1, 2]) return board[1, 0];
+    if (board[2, 0] != 0 && board[2, 0] == board[2, 1] && board[2, 1] == board[2, 2]) return board[2, 0];
+    if (board[0, 0] != 0 && board[0, 0] == board[1, 0] && board[1, 0] == board[2, 0]) return board[0, 0];
+    if (board[0, 1] != 0 && board[0, 1] == board[1, 1] && board[1, 1] == board[2, 1]) return board[0, 1];
+    if (board[0, 2] != 0 && board[0, 2] == board[1, 2] && board[1, 2] == board[2, 2]) return board[0, 2];
+    if (board[0, 0] != 0 && board[0, 0] == board[1, 1] && board[1, 1] == board[2, 2]) return board[0, 0];
+    if (board[0, 2] != 0 && board[0, 2] == board[1, 1] && board[1, 1] == board[2, 0]) return board[0, 2];
+
+    if ((from int d in board where d == 0 select d).Count() > 0) return -1;
+
+    return 0;
+}
+
+int[,] board = new int[,] { { 1, 1, 1 }, { 0, 2, 2 }, { 0, 0, 0 } };
+//Console.WriteLine(IsSolved(board));
+//Console.WriteLine(IsSolved2(board));
 
 public class PagnationHelper<T>
 {
